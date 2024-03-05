@@ -27,6 +27,16 @@ Get Is_Prime JSON
     # Get the response content as a JSON object
     [return]    ${resp.json()}
 
+Get Is_1_Honor JSON
+    [Arguments]    ${grade} 
+    ${resp}=     GET    ${BASE_URL}/is1honor/${grade}
+
+    # Verify the status code is 200 (OK)
+    Should Be Equal    ${resp.status_code}    ${200}
+
+    # Get the response content as a JSON object
+    [return]    ${resp.json()}
+
 *** Test Cases ***
 Test Plus Numbers 4 and 2 (ฺBefore Using Keywords)
 
@@ -74,3 +84,20 @@ Test Is_Prime Number 13219
     ${json_resp}=    Get Is_Prime JSON   ${13219}  
 
     Should Be Equal    ${json_resp}    ${true}
+
+Test Is_1_Honor 3.6
+    ${json_resp}=    Get Is_1_Honor JSON   ${3.6}  
+
+    Should Be Equal    ${json_resp}    ${true}
+
+
+Test Is_1_Honor 3.5
+    ${json_resp}=    Get Is_1_Honor JSON   ${3.5}  
+
+    Should Be Equal    ${json_resp}    ${true}
+
+
+Test Is_1_Honor 3.6
+    ${json_resp}=    Get Is_1_Honor JSON   ${3.4}  
+
+    Should Be Equal    ${json_resp}    ${false}
